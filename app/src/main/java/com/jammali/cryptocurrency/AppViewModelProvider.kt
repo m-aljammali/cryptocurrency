@@ -5,12 +5,12 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 
-class AppViewModelProvider {
+object AppViewModelProvider {
 
     val Factory = viewModelFactory {
 
 
-        // Initializer for HomeViewModel
+        // Initializer for CoinsListViewModel
         initializer {
             CoinsListViewModel(inventoryApplication().container.coinsRepository)
         }
