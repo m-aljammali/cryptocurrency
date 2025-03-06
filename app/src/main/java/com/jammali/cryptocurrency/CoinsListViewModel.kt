@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jammali.cryptocurrency.data.local.database.CoinsListEntity
 import com.jammali.cryptocurrency.data.repository.CoinsListRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -16,12 +15,12 @@ class CoinsListViewModel (private val  coinsListRepository : CoinsListRepository
 
 
 
-    val homeUiState: StateFlow<HomeUiState> =
-        coinsListRepository.getAllCoinsStream().map { HomeUiState(it) }
+    val listUiState: StateFlow<ListUiState> =
+        coinsListRepository.getAllCoinsStream().map { ListUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = HomeUiState()
+                initialValue = ListUiState()
             )
 
 
@@ -45,4 +44,4 @@ class CoinsListViewModel (private val  coinsListRepository : CoinsListRepository
 /**
  * Ui State for ListScreen
  */
-data class HomeUiState(val coinsList: List<CoinsListEntity> = listOf())
+data class ListUiState(val coinsList: List<CoinsListEntity> = listOf())

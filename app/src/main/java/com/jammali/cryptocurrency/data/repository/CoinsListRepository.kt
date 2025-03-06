@@ -27,7 +27,7 @@ class CoinsListRepository (
                             .map { item ->
                                 Log.d("CoinsListRepository", "item: ${item}")
                                 CoinsListEntity(
-
+                                    0,
                                     item.symbol ?: "",
                                     item.id,
                                     item.name,
