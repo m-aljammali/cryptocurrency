@@ -2,6 +2,7 @@ package com.jammali.cryptocurrency
 
 
 import android.app.Application
+import android.content.Context
 import com.jammali.cryptocurrency.data.AppContainer
 import com.jammali.cryptocurrency.data.AppDataContainer
 
@@ -12,8 +13,11 @@ class CryptocurrencyApplication : Application() {
      */
     lateinit var container: AppContainer
 
+
     override fun onCreate() {
         super.onCreate()
         container = AppDataContainer(this)
+
+
     }
 }

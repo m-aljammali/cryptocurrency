@@ -12,7 +12,7 @@ object AppViewModelProvider {
 
         // Initializer for CoinsListViewModel
         initializer {
-            CoinsListViewModel(inventoryApplication().container.coinsRepository)
+            CoinsListViewModel(inventoryApplication().container.coinsRepository, inventoryApplication())
         }
 
     }

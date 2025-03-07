@@ -16,14 +16,6 @@ interface CoinsListDao {
     @Query("Select * from coins_list")
     fun getCoinsList(): Flow<List<CoinsListEntity>>
 
-    //Returns stocks based on symbol
-    @Query("Select * from coins_list where symbol = :symbol")
-    suspend fun projectFromSymbol(symbol: String): CoinsListEntity?
-
-    //Returns stocks livedata based on symbol
-    @Query("Select * from coins_list where symbol = :symbol")
-    fun projectLiveDataFromSymbol(symbol: String): LiveData<CoinsListEntity>
-
     //Inserts data. If row already exists, replace the row
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(coinList: List<CoinsListEntity>)

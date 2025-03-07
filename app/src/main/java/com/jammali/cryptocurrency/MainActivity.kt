@@ -1,6 +1,7 @@
 package com.jammali.cryptocurrency
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -34,14 +35,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jammali.cryptocurrency.data.local.database.CoinsListEntity
 import com.jammali.cryptocurrency.ui.theme.CryptocurrencyTheme
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import coil3.compose.AsyncImage
+import com.jammali.cryptocurrency.data.storePreference
+import com.jammali.cryptocurrency.utils.CacheUtils
+import kotlinx.coroutines.launch
 
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         enableEdgeToEdge()
         setContent {
             CryptocurrencyTheme {
@@ -72,18 +80,23 @@ fun HomeScreen(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     viewModel: CoinsListViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
     val homeUiState by viewModel.listUiState.collectAsState()
 
-
     Scaffold(
-
-
     ) { innerPadding ->
+
+
+
         HomeBody(
             coinsList = homeUiState.coinsList,
            // onItemClick = navigateToItemUpdate,
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
+
+
         )
     }
 }
@@ -107,7 +120,7 @@ private fun HomeBody(
                 modifier = Modifier.padding(contentPadding),
             )
         } else {
-            InventoryList(
+            CoinList(
                 coinsList = coinsList,
               //  onItemClick = { onItemClick(it.id) },
                 contentPadding = contentPadding,
@@ -118,7 +131,7 @@ private fun HomeBody(
 }
 
 @Composable
-private fun InventoryList(
+private fun CoinList(
     coinsList: List<CoinsListEntity>,
   //  onItemClick: (CoinsListEntity) -> Unit,
     contentPadding: PaddingValues,
@@ -128,7 +141,7 @@ private fun InventoryList(
         modifier = modifier,
         contentPadding = contentPadding
     ) {
-        items(items = coinsList, key = { it.id }) { item ->
+        items(items = coinsList, key = { it.symbol }) { item ->
             CoinItem(item = item,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small)))
@@ -200,7 +213,7 @@ fun TopAppBar(
 fun CoinItem() {
     CryptocurrencyTheme {
         CoinItem(
-            CoinsListEntity(1, "xrp", "ripple", "XRP", 2.58, 2.94662, "https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442" ),
+            CoinsListEntity( "xrp", "ripple", "XRP", 2.58, 2.94662, "https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442" ),
         )
     }
 }

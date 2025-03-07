@@ -28,13 +28,7 @@ class AppDataContainer(private val context: Context) : AppContainer {
      */
 
 
-
-
-
-    val TAG = "AppDataContainer"
     override val coinsRepository: CoinsListRepository by lazy {
-        Log.d(TAG,"AppDataContainer")
-
          val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(Constants.BASE_URL)
@@ -46,7 +40,7 @@ class AppDataContainer(private val context: Context) : AppContainer {
          val localDataSource = OfflineCoinsListRepository(CoinsDatabase.getDatabase(context).coinsListDao())
 
         CoinsListRepository (remoteDataSource, localDataSource)
-      // OfflineCoinsListRepository(CoinsDatabase.getDatabase(context).coinsListDao())
+
     }
 
 

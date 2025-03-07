@@ -1,10 +1,13 @@
 package com.jammali.cryptocurrency.data.repository
 
+import android.content.Context
 import android.util.Log
 import com.jammali.cryptocurrency.data.local.database.CoinsListEntity
 import com.jammali.cryptocurrency.utils.Constants
 import com.jammali.cryptocurrency.data.api.Result
 import com.jammali.cryptocurrency.data.api.succeeded
+import com.jammali.cryptocurrency.data.storePreference
+import com.jammali.cryptocurrency.utils.CacheUtils
 import kotlinx.coroutines.flow.Flow
 
 
@@ -14,20 +17,20 @@ class CoinsListRepository (
 ) {
 
 
-    suspend fun coinsList(targetCur: String , marketCapDesc: String, perPage: String, page: String) {
+    suspend fun coinsList(targetCur: String , marketCapDesc: String, perPage: String, page: String, context: Context) {
 
         Log.d("CoinsListRepository", "coinsList")
         when (val result = coinsListRemoteDataSource.coinsList(targetCur, marketCapDesc , perPage, page )) {
             is Result.Success -> {
                 if (result.succeeded) {
 
-                    val customStockList = result.data.let {
+                    val customCoinsList = result.data.let {
                         Log.d("CoinsListRepository", "coinsList")
                         it.filter { item -> item.symbol.isNullOrEmpty().not() }
                             .map { item ->
                                 Log.d("CoinsListRepository", "item: ${item}")
                                 CoinsListEntity(
-                                    0,
+
                                     item.symbol ?: "",
                                     item.id,
                                     item.name,
@@ -38,8 +41,8 @@ class CoinsListRepository (
                             }
                     }
 
-                    coinsListDataSource.insertCoins(customStockList)
-
+                    coinsListDataSource.insertCoins(customCoinsList)
+                    storePreference.saveStringValue(CacheUtils.getCurrentTime(), storePreference.CACHE_EXP, context)
 
                     Result.Success(true)
                 } else {
@@ -51,8 +54,13 @@ class CoinsListRepository (
     }
 
 
+
      fun getAllCoinsStream() : Flow<List<CoinsListEntity>> {
      return coinsListDataSource.getAllCoinsStream()
+    }
+
+    suspend fun deleteCache()  {
+         coinsListDataSource.deleteAll()
     }
 
 
