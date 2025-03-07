@@ -1,1 +1,1 @@
-imnport project into andorid studio and run
+Import project into Android studio and run
