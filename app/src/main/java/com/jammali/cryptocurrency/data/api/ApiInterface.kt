@@ -8,7 +8,7 @@ interface ApiInterface {
 
 
     @GET(EndPoints.COINS_LIST)
-    suspend fun coinsList(@Query("vs_currency") targetCurrency: String): Response<List<Coin>>
+    suspend fun coinsList(@Query("vs_currency") targetCurrency: String, @Query("order") market_cap_desc: String, @Query("per_page") per_page: String , @Query("page") page: String): Response<List<Coin>>
 
 
 }

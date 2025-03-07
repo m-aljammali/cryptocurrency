@@ -29,7 +29,7 @@ class CoinsListViewModel (private val  coinsListRepository : CoinsListRepository
     }
     init {
         viewModelScope.launch {
-            coinsListRepository.coinsList("usd")
+            coinsListRepository.coinsList("usd", "market_cap_Desc" , "10" , "1")
 
 
 

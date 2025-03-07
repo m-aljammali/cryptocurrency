@@ -14,10 +14,10 @@ class CoinsListRepository (
 ) {
 
 
-    suspend fun coinsList(targetCur: String) {
+    suspend fun coinsList(targetCur: String , marketCapDesc: String, perPage: String, page: String) {
 
         Log.d("CoinsListRepository", "coinsList")
-        when (val result = coinsListRemoteDataSource.coinsList(targetCur)) {
+        when (val result = coinsListRemoteDataSource.coinsList(targetCur, marketCapDesc , perPage, page )) {
             is Result.Success -> {
                 if (result.succeeded) {
 

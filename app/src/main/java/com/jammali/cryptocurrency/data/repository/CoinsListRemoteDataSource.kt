@@ -11,8 +11,8 @@ import com.jammali.cryptocurrency.data.api.Result
 class CoinsListRemoteDataSource (private val service: ApiInterface) :
     BaseRemoteDataSource() {
 
-    suspend fun coinsList(targetCur: String): Result<List<Coin>> =
+    suspend fun coinsList(targetCur: String , marketCapDesc: String, perPage: String, page : String ): Result<List<Coin>> =
         getResult {
-            service.coinsList(targetCur)
+            service.coinsList(targetCur, marketCapDesc , perPage, page)
         }
 }
